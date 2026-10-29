@@ -1,0 +1,181 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{microtype}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[enumerate]{leftmargin=*, itemsep=0.35em, topsep=0.2em}
+\setlist[itemize]{leftmargin=*, itemsep=0.12em, topsep=0.12em}
+
+\newcommand{\sectionlabel}[1]{\par\textbf{\underline{#1}}\par}
+
+\begin{document}
+
+\sectionlabel{Magnetic Knitting}
+
+Many believe the art of knitting is old-school and disappearing. Yet, everyone wants knitted jumpers and clothing that scream ``MY-GRANDMA-KNITTED-IT'', even if she didn't. But, the art of knitting is known to a few and considering how busy the world is, even fewer are able to add this activity into the schedule. So, what if, the desired hand-woven effect can be achieved? Not by making 24 hours 25, rather by using magnetic actuation to knit.
+
+\sectionlabel{Inspiration:}
+
+I grew up reading Harry Potter and when I saw the knitting charm in BURROW (Weasley's House, Harry Potter and the Chamber of Secrets) I was obsessed. As I grew up, I realise- though magic is not real, physics is basically applied magic- with logic being the wand and spells still being discovered.
+
+\sectionlabel{Suggestion:}
+
+Using electromagnetic solenoid array in order to build a self-knitting machine using magnetic actuation.
+
+\sectionlabel{Approach:}
+
+\begin{enumerate}
+  \item \textbf{Base}
+    \begin{itemize}
+      \item A suitable base on top of a chair/sofa like frame with two halves separated and bordered with a strong insulating material.
+      \item Each half contains an array of electromagnets.
+      \item A knitting needle sits over each array.
+    \end{itemize}
+  \item \textbf{Knitting Needle}
+    \begin{itemize}
+      \item The needle has a cylindrical shaft.
+      \item The first one inch is conical and the last one inch is flat.
+      \item It has an aluminum core for predictable magnetic response.
+      \item There is a thin non continuous magnetic strip present in. This magnetic strip breaks after every inch for an inch.
+      \item The parts of the needle which do not have the magnetic strip, except both the ends are coated with mu-metal for passive shielding.
+      \item The aluminum core being flat at the end enable better torque transfer due to eddy currents.
+    \end{itemize}
+  \item \textbf{Electromagnet array}
+    \begin{itemize}
+      \item The base uses a dense grid of miniature solenoids, each individually addressable, to reduce unwanted interactions.
+      \item The circuit incorporates resistors and capacitors for minimizing heat loss and increasing stability.
+      \item Solenoids are driven by pulse-width-modulation (PWM) to ensure smooth movements and proper timings.
+      \item The power supply is fully external.
+    \end{itemize}
+\end{enumerate}
+
+\sectionlabel{Mechanism:}
+
+\begin{enumerate}
+  \item The system energizes the array of solenoids in a carefully preprogrammed pattern using PWM, which helps sequencing attractive-repulsive fields as required. As current passes through them, a magnetic field is generated (Maxwell's Laws). Using this field, magnetic actuation is achieved.
+  \item The first set of instruction from the PWM ensure the correct positioning of the needles above the array. The initial magnetic field levitates the magnetic needle to the desired position from where the real set of knitting actions start.
+  \item Here the solenoids basically work similar to AC motor, however with a slight difference. Controlled vibration is generated in the needle due to timed oscillation of the solenoids.
+  \item By controlling which solenoid gets current when and by how much, we can move, lift and rotate the knitting needles as needed. As we change the direction of current in a solenoid, the direction of the magnetic field induced also changes.
+  \item As eddy current is induced in the needles, which causes the rotation to become smoother. The aluminum core actually helps a lot in the rotation.
+  \item As we decrease and increase the current passing through the solenoids (transition being smooth), we can fluctuate the magnetic field produced and hence change the positioning of the needles.
+  \item By proper co-ordination of the knitting instruction cycle, we can replicate the desired knitting pattern.
+  \item Adjacent solenoids never activate in conflicting patterns to prevent cross-interference of magnetic fields.
+  \item Cross interference of opposite magnetic fields can be calculated and the pattern is set keeping that in mind.
+\end{enumerate}
+
+\sectionlabel{Calculation}
+
+Consider both the actuator models to have a $p\times q$ array of identical miniature solenoids. Every solenoid has a silicon-steel laminated core.
+
+The length of solenoid is $L$ and its radius is $r$ and it has $n$ turns in its coil.
+
+Each actuator is driven by a PWM controlled current $c$, driven across the solenoids.
+
+The knitting needle has a mass $m$ and a moment of inertia $I_r$. The mass of the array itself is $M$.
+
+However, it is only $m$ which contributes to the gravitational load.
+
+\[
+\Rightarrow \text{downward force acting on needle } F=mg
+\]
+
+\begin{enumerate}
+  \item \textbf{Magnetic force}
+
+  At any instant $t$, let a subset of $N$ solenoids be participating in the levitation. If their distances from the needle are given by $r_1, r_2, \ldots, r_n$, then the average effective distance is:
+  \[
+    r=\frac{1}{N}\sum_{i=1}^{N}r_i
+  \]
+
+  The active solenoids generate a magnetic field $B(t)$ at the needle's location.
+
+  The needle's magnetic response generates a magnetic lifting force $F(t)$ who's vertical component $F'(t)\geq f=mg$ whenever levitation is required.
+
+  This force $F(t)$ has to be held constant as different solenoids activate / deactivate so until and unless the vertical co-ordinate of the needle (as a whole) has to be changed.
+
+  If the value of $F(t)$ is intentionally increased / decreased, then, controlled vertical motion occurs.
+
+  \item \textbf{Flux, Induction and Eddy Current}
+
+  The time varying magnetic field $B(t)$ produces a magnetic flux on a cross-sectional area $A$ linked to the needle's conductive region.
+  \[
+    \phi(t)=B(t)A
+  \]
+
+  As the flux is continuously changing, an emf $e$ is induced in needle.
+  \[
+    e=-\frac{d\phi(t)}{dt}
+  \]
+
+  Which derives an eddy current $E(t)$, with its path having effective resistance $R_e$, such that
+  \[
+    E(t)\propto\frac{e(t)}{R_e}
+  \]
+
+  This eddy current $E(t)$ interacts with the magnetic field $B(t)$ to produce torque $\tau$.
+
+  We need to achieve an angular velocity $\omega$, for which
+  \[
+    \tau(t)\geq I_r\frac{d\omega}{dt}
+  \]
+
+  As $E(t)$ depends directly on rate of change of $B(t)$ which depends on $c$, the drive current amplitude and wavefront become the primary tuning variables.
+
+  \item \textbf{Cross interference between two arrays}
+
+  As the complete system consists of two different actuator systems, each with its own power supply, as they both come in contact, they also experience a secondary magnetic field $B'$ due to the cross interference of their respective magnetic fields.
+
+  If at any instant of time $d$ is the distance between them, $\theta$ is the angle between them then,
+  \[
+    B_{\mathrm{net}}=B+B'(\theta,d)
+  \]
+\end{enumerate}
+
+Proper PWM sequencing, active shielding and layout symmetry minimizes the cross interference of magnetic fields and maintain predictable needle motion.
+
+\sectionlabel{Major Challenges:}
+
+\begin{enumerate}
+  \item \textbf{Magnetic Localization} If A, B and C are neighboring solenoids, then, the magnetic field of A should not interfere with the magnetic field of adjacent solenoids B and C. Solution: Using PWM we can ensure neighboring solenoids do not have opposite direction of field at any point.
+  \item \textbf{Thermal Management} Solenoids heat up on constant usage, hence, decreasing the life of the machine and it might harm the wool. Solution: Using PWM to switch solenoids continuously to prevent any major heat loss. Increasing the gap between adjacent solenoids and using solenoids of laminated cores made of silicon (or similar metal alloy) sheets.
+\end{enumerate}
+
+\sectionlabel{Questions and Answers:}
+
+\begin{enumerate}
+  \item \textbf{Won't the gravity restrict the needle from levitating?} Ans. The effect of gravity on the needle does not hinder its functioning. The force due to the induced magnetic field can be calibrated so that its vertical component cancels out the weight ($mg$) of the needles.
+  \item \textbf{What about the knitted fabric?} Ans. The knitted fabric gets collected in a separate wooden structure below the work area.
+\end{enumerate}
+
+\sectionlabel{Warning:}
+
+\begin{enumerate}
+  \item \textbf{Projectile Effect/Missile Effect:} The system might collapse if a ferro-magnetic substance enters the field.
+  \item \textbf{Strong Magnetic Field:} The magnetic field might be too strong and can harm the human body over a prolonged period of time.
+\end{enumerate}
+
+\sectionlabel{Considerations:}
+
+\begin{enumerate}
+  \item There should be an active noise cancellation system as rapid firing of solenoids might be loud.
+  \item Ensure a backup power supply, sudden disruption can cause the solenoids to fuse.
+  \item Calculate the magnetic flux and set the PWM in such a manner that it can be avoided.
+  \item Calculate the breaking stress the needle of the needle. Then find the maximum weight $W$ of wool it can hold without bending. Find the approximate linear mass density $\alpha$ of the knitted fabric in your chosen knitting pattern. At a distance $W\times\alpha$ from the lowest point at which the needle comes, set the wooden tray wherein the knitted fabric is collected. Ensure that the actuation system is present above it.
+\end{enumerate}
+
+\sectionlabel{Future Upgrades:}
+
+\begin{enumerate}
+  \item Using AI and computer vision to add detailed knots and patterns, and for real-time error detection.
+  \item Creating a multi needle system for full time knitting machine.
+\end{enumerate}
+
+\sectionlabel{Similar Project:}
+
+Magnetic array knitting needle driving system design (Authors: Chengjun Zhang, Dongdong Li, Xiaoyan Zuo, Xiangyang Zhou): A similar concept (I found much later while checking my idea for unintentional plagiarism) but not exactly the same.
+
+\end{document}
