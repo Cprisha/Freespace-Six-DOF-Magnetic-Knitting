@@ -1,0 +1,101 @@
+array_label,p,q,spacing_cm,pole_moment,height_in,height_m,min_B_T,drift_05s_m,status
+10x5  @ 2.0cm,10,5,2,0.05,0.5,0.0127,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.05,1,0.0254,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.05,1.5,0.0381,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.05,2,0.0508,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.05,2.5,0.0635,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.1,0.5,0.0127,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.1,1,0.0254,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.1,1.5,0.0381,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.1,2,0.0508,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.1,2.5,0.0635,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.2,0.5,0.0127,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.2,1,0.0254,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.2,1.5,0.0381,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.2,2,0.0508,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.2,2.5,0.0635,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.5,0.5,0.0127,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.5,1,0.0254,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.5,1.5,0.0381,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.5,2,0.0508,,,Not achievable
+10x5  @ 2.0cm,10,5,2,0.5,2.5,0.0635,,,Not achievable
+10x5  @ 2.0cm,10,5,2,1,0.5,0.0127,,,Not achievable
+10x5  @ 2.0cm,10,5,2,1,1,0.0254,,,Not achievable
+10x5  @ 2.0cm,10,5,2,1,1.5,0.0381,,,Not achievable
+10x5  @ 2.0cm,10,5,2,1,2,0.0508,,,Not achievable
+10x5  @ 2.0cm,10,5,2,1,2.5,0.0635,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.05,0.5,0.0127,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.05,1,0.0254,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.05,1.5,0.0381,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.05,2,0.0508,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.05,2.5,0.0635,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.1,0.5,0.0127,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.1,1,0.0254,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.1,1.5,0.0381,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.1,2,0.0508,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.1,2.5,0.0635,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.2,0.5,0.0127,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.2,1,0.0254,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.2,1.5,0.0381,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.2,2,0.0508,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.2,2.5,0.0635,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.5,0.5,0.0127,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.5,1,0.0254,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.5,1.5,0.0381,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.5,2,0.0508,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,0.5,2.5,0.0635,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,1,0.5,0.0127,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,1,1,0.0254,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,1,1.5,0.0381,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,1,2,0.0508,,,Not achievable
+14x7  @ 1.5cm,14,7,1.5,1,2.5,0.0635,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.05,0.5,0.0127,1.539017476,-3.19399303,△ MARGINAL
+20x10 @ 1.2cm,20,10,1.2,0.05,1,0.0254,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.05,1.5,0.0381,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.05,2,0.0508,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.05,2.5,0.0635,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.1,0.5,0.0127,0.769520591,-3.19402334,PRACTICAL
+20x10 @ 1.2cm,20,10,1.2,0.1,1,0.0254,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.1,1.5,0.0381,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.1,2,0.0508,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.1,2.5,0.0635,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.2,0.5,0.0127,0.384772149,-3.194083961,PRACTICAL
+20x10 @ 1.2cm,20,10,1.2,0.2,1,0.0254,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.2,1.5,0.0381,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.2,2,0.0508,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.2,2.5,0.0635,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.5,0.5,0.0127,0.153907825,-3.19407073,PRACTICAL
+20x10 @ 1.2cm,20,10,1.2,0.5,1,0.0254,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.5,1.5,0.0381,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.5,2,0.0508,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,0.5,2.5,0.0635,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,1,0.5,0.0127,0.077003912,-3.195349301,PRACTICAL
+20x10 @ 1.2cm,20,10,1.2,1,1,0.0254,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,1,1.5,0.0381,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,1,2,0.0508,,,Not achievable
+20x10 @ 1.2cm,20,10,1.2,1,2.5,0.0635,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.05,0.5,0.0127,0.997714641,-2.169646116,PRACTICAL
+28x14 @ 1.0cm,28,14,1,0.05,1,0.0254,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.05,1.5,0.0381,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.05,2,0.0508,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.05,2.5,0.0635,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.1,0.5,0.0127,0.49890732,-2.169740671,PRACTICAL
+28x14 @ 1.0cm,28,14,1,0.1,1,0.0254,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.1,1.5,0.0381,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.1,2,0.0508,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.1,2.5,0.0635,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.2,0.5,0.0127,0.249427367,-2.169641223,PRACTICAL
+28x14 @ 1.0cm,28,14,1,0.2,1,0.0254,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.2,1.5,0.0381,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.2,2,0.0508,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.2,2.5,0.0635,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.5,0.5,0.0127,0.099815688,-2.170064278,PRACTICAL
+28x14 @ 1.0cm,28,14,1,0.5,1,0.0254,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.5,1.5,0.0381,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.5,2,0.0508,,,Not achievable
+28x14 @ 1.0cm,28,14,1,0.5,2.5,0.0635,,,Not achievable
+28x14 @ 1.0cm,28,14,1,1,0.5,0.0127,0.049919697,-2.170288435,PRACTICAL
+28x14 @ 1.0cm,28,14,1,1,1,0.0254,,,Not achievable
+28x14 @ 1.0cm,28,14,1,1,1.5,0.0381,,,Not achievable
+28x14 @ 1.0cm,28,14,1,1,2,0.0508,,,Not achievable
+28x14 @ 1.0cm,28,14,1,1,2.5,0.0635,,,Not achievable
