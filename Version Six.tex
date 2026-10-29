@@ -1,0 +1,841 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{bm}
+
+\geometry{margin=1in}
+
+\title{\textbf{Free-Space Six-Degree-of-Freedom Magnetic Levitation\\
+for Two-Needle Hand Knitting Mechanics: An Integrated Electromagnetic and Textile Framework}}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+Most magnetically driven knitting systems still keep the basic mechanical layout of a conventional knitting machine. The cam drive may be replaced by magnetic actuation, but the needles remain physically constrained inside a needle bed and the magnetic system mainly makes them follow paths that have already been fixed mechanically.
+
+This paper looks at a different possibility: a theoretical two-needle system inspired by hand knitting, where both needles are free to move in six degrees of freedom and are controlled by magnetic fields without mechanical guides. The proposed needle combines a conductive aluminium body, used for eddy-current torque generation, with a periodically interrupted magnetic strip that provides discrete magnetic interaction regions for levitation and translational control.
+
+The electromagnetic problem is considered together with the thermal problem. Thermoelectric energy harvesting and a conceptual sorption refrigeration sub-bed are considered as possible ways of dealing with heat produced by high-frequency solenoid operation.
+
+The needles are also not treated as having fixed mechanical properties throughout the knitting cycle. Their V-shaped configuration changes continuously, described here by the intersection angle $\theta$, while yarn loops move between them. This changes the effective mass, moment of inertia, and rotational coupling. These effects are therefore included in the control framework. The paper also derives a feedforward control law for an active bidirectional motorized yarn dispenser. Since the needle trajectories are predefined, the geometric yarn-length requirement during intermediate stitch formation can be calculated from them.
+
+This work is entirely theoretical. It is meant as a framework for future modelling, simulation, and experimental validation.
+
+\end{abstract}
+
+%------------------------------------------------------------
+\section{Introduction}
+%------------------------------------------------------------
+
+Industrial knitting machines have used mechanical cam systems for decades. They work well and can operate at high speed, but the same mechanical setup also brings contact, wear, noise, mechanical complexity, and the possibility of repeated needle damage.
+
+Magnetic actuation has been explored as an alternative to mechanical cam drives. Zhang et al.~\cite{zhang2019} proposed a magnetic array for driving knitting needles without direct mechanical contact. Later work~\cite{zuo2021, xiong2023, zhang2025} continued in this direction, looking at needle gauge, magnetic interference between adjacent needles, and control methods such as PID and sliding-mode control.
+
+There is still one basic feature shared by these systems: the needles are mechanically guided. Magnetic actuation changes how the needles are driven, but not the fact that their paths are already constrained by a needle bed.
+
+This paper starts from a different idea. Instead of modifying the conventional knitting machine, it asks whether the mechanics of hand knitting can be reproduced with two needles that move freely in space and are actuated entirely through magnetic fields. The needles are not limited to parallel, single-axis motion. They are intended to follow the non-parallel trajectories that occur in hand knitting, which means that full six-degree-of-freedom motion has to be considered.
+
+The needles are also not treated as ideal rigid bodies with constant mass and inertia. As knitting progresses, yarn loops move between the two needles. The amount and distribution of yarn attached to a needle therefore change during the cycle. At the same time, the angle between the needles changes as the V-shaped configuration opens and closes. Both effects matter for the mechanics of the system.
+
+There is another problem that comes directly from the textile side of the system. The amount of yarn required between the needles is not constant while a stitch is being formed. The framework therefore includes a mathematical model for an active yarn dispenser whose motion is synchronized with the predefined needle trajectories.
+
+The main contributions of this exploratory framework are:
+
+\begin{itemize}
+\item A theoretical architecture for two free-space knitting needles capable of six-degree-of-freedom magnetic actuation without mechanical guides.
+\item A needle design in which the individual structural components have specific electromagnetic and mechanical purposes.
+\item A dynamic mechanical model that accounts for changing yarn mass distribution, needle orientation, and rotational cross-coupling during knitting.
+\item A mathematical feedforward model for an active bidirectional yarn dispenser synchronized with predefined knitting trajectories.
+\end{itemize}
+
+%------------------------------------------------------------
+\section{System Overview}
+%------------------------------------------------------------
+
+The proposed system consists of two identical actuator units. Each unit contains a dense solenoid array and one knitting needle. The two units face each other across an insulating boundary, reproducing the basic two-handed arrangement of hand knitting.
+
+Each actuator uses a $p \times q$ array of individually addressable miniature solenoids with silicon-steel laminated cores. A knitting needle levitates above each array and is intended to be controlled entirely through the magnetic forces and torques produced by the solenoids. There is no rigid needle bed, bearing, or fixed mechanical track. The position and orientation of each needle are instead determined dynamically by magnetic actuation together with the needle's interaction with the yarn.
+
+Before knitting starts, the yarn is cast onto the needle shafts either manually or through an auxiliary start-up sequence. This gives the system the initial loop arrangement needed for the magnetic knitting cycle.
+
+%------------------------------------------------------------
+\section{Needle Design}
+%------------------------------------------------------------
+
+The needle is designed so that its different structural features have specific jobs in the overall actuation problem. The material and geometry are therefore deliberate choices rather than arbitrary dimensions.
+
+\subsection{Geometry}
+
+The needle consists of a cylindrical shaft with a conical leading tip and a flat trailing end. The conical tip is intended to help with yarn manipulation during loop formation. The trailing region provides a larger conductive surface over which eddy currents can be induced.
+
+The effectiveness of eddy-current torque generation depends on frequency. For a sinusoidal magnetic-field component, the characteristic electromagnetic penetration depth in a conductive material is
+
+\begin{equation}
+\delta=\sqrt{\frac{2}{\omega\mu\sigma}},
+\end{equation}
+
+where $\delta$ is the skin depth, $\omega$ is the angular frequency of the particular time-varying magnetic-field component, $\mu$ is the magnetic permeability of the conductive material, and $\sigma$ is its electrical conductivity.
+
+The excitation is not assumed to be a perfect sinusoid. PWM produces a non-sinusoidal waveform containing a fundamental component as well as higher harmonics, and those components can penetrate the aluminium to different depths. They can therefore contribute differently to the induced current distribution, electromagnetic torque, and resistive heating.
+
+For this reason, the PWM carrier frequency cannot be considered by itself. The carrier frequency, duty cycle, waveform, magnetic-field spectrum, and spatial field distribution all matter. No particular optimum excitation frequency is assumed here. Frequency and waveform parameters remain design variables that would need to be studied through future finite element analysis and experimental measurements.
+
+\subsection{Aluminium Body}
+
+The main conductive body of the needle is aluminium. This is deliberate. Aluminium is non-ferromagnetic, so it does not produce the strong static magnetic attraction that would be expected from a ferromagnetic body.
+
+When a time-varying magnetic field passes through the aluminium, eddy currents are induced in it. These currents interact with the applied field and can produce electromagnetic forces and torques. This gives a possible way to control the needle's rotation.
+
+The resulting torque is not determined by conductivity alone. It depends on excitation frequency, field distribution, geometry, electrical conductivity, and the relative orientation between the needle and the magnetic field.
+
+\subsection{Characteristic Magnetic Strip Geometry}
+
+A magnetic interaction strip runs along the needle shaft but is interrupted periodically. Instead of one continuous magnetic region, the shaft therefore contains a sequence of discrete magnetic interaction regions. Let the length of a magnetic section be $l_m$ and the length of a non-magnetic section be $l_n$.
+
+The spatial pitch of the pattern is
+
+\begin{equation}
+p_m=l_m+l_n,
+\end{equation}
+
+where $p_m$ is the distance between corresponding points of successive magnetic sections.
+
+The magnetic regions can therefore be treated as a periodic sequence of intervals along the shaft. The values of $l_m$ and $l_n$ can be varied independently during electromagnetic optimization. This makes the strip geometry itself a design variable rather than an arbitrary fixed dimension.
+
+As the needle moves relative to the solenoid array, successive magnetic sections enter regions of stronger magnetic interaction. Selective activation of the solenoids can then be used to shape the resulting magnetic force distribution.
+
+The lengths $l_m$, $l_n$, and $p_m$ are therefore parameters of the electromagnetic design. Their useful values depend on the required force and torque, spatial resolution, needle dimensions, solenoid spacing, material properties, and operating frequency. Their optimum values must ultimately be determined through electromagnetic simulation and experimental characterization.
+
+\subsection{No Mu-Metal Coating}
+
+A mu-metal coating was considered as a way of passively shielding the non-magnetic regions of the shaft. It was rejected at the conceptual stage for three reasons: cost, limited mechanical durability under repeated yarn contact, and the lack of evidence that it is necessary.
+
+The remaining portions of the needle are aluminium and therefore non-ferromagnetic, so passive magnetic shielding is not assumed to be required. Any unwanted magnetic interaction is instead intended to be handled through coordinated excitation, PWM timing, and controlled solenoid activation.
+
+%------------------------------------------------------------
+\section{Solenoid Array and Thermal Considerations}
+%------------------------------------------------------------
+
+Each actuator uses a dense $p \times q$ array of miniature solenoids with silicon-steel laminated cores. The lamination is intended to reduce eddy-current losses in the cores compared with an equivalent electrically continuous magnetic core.
+
+The solenoids are driven using high-frequency pulse-width modulation (PWM), allowing the effective excitation of each unit to be varied through duty-cycle control.
+
+Continuous operation produces Joule heating, represented by $I^2R$ losses in the coils. Instead of treating this heat only as something that has to be removed, the framework also considers whether part of it can be harvested and how the remaining thermal load could be managed.
+
+\subsection{Thermoelectric Matrix and Passive Thermal Effects}
+
+A thin-film thermoelectric generator (TEG) layer may be placed between the solenoid bases and the lower heat sink to harvest part of the available thermal gradient.
+
+The TEG is considered mainly as a thermal-energy harvesting element rather than as the main cooling mechanism. It may also change the thermal resistance between the solenoid assembly and the heat sink, so that effect would have to be included in a future thermal model.
+
+The copper windings also introduce a temperature-dependent electrical effect. As copper heats, its electrical resistance increases because of its positive temperature coefficient of resistance. Under constant-voltage drive, the increased resistance reduces the current in the affected coil, which in turn reduces its magnetic excitation relative to the cold-state value.
+
+This reduction in current could incidentally reduce magnetic leakage from a heated coil. It is not treated as a reliable stabilization mechanism, however, because the actual effect depends on the electrical drive mode, coil resistance, thermal state, and magnetic coupling. Its importance would have to be determined experimentally or through coupled electrothermal simulation.
+
+\subsection{Integrated Sorption Refrigeration Sub-Bed}
+
+The framework also considers a non-mechanical sorption refrigeration system integrated beneath the stator bed. The purpose is to provide another possible way of managing the thermal load and limiting temperature-dependent degradation of the silicon-steel magnetic properties.
+
+Instead of using a conventional compressor, the conceptual system uses waste heat from the solenoid array to drive refrigerant desorption in a closed, thermally driven refrigeration cycle. During evaporation, the refrigerant absorbs latent heat from the region being cooled.
+
+Whether such a system is practical depends on refrigerant selection, sorbent properties, thermal resistance, regeneration temperature, heat-exchanger geometry, and cycle timing. At this stage, the sorption system is therefore a proposed thermal-management architecture rather than a demonstrated cooling solution.
+
+%------------------------------------------------------------
+\section{Degrees of Freedom and Control Architecture}
+%------------------------------------------------------------
+
+The proposed system requires control over the full six-degree-of-freedom (6-DOF) pose of each needle: three translational degrees of freedom and three rotational degrees of freedom. These six coordinates describe the desired state of the needle, but they should not be treated as six completely independent physical actuators.
+
+Magnetic force and magnetic torque are generally coupled. A solenoid activation pattern intended mainly to translate the needle may also produce a rotational moment. Likewise, an excitation pattern intended mainly to produce torque may also produce translational force. The actual motion depends on the solenoid arrangement, the instantaneous needle pose, the magnetic-strip geometry, the state of neighbouring solenoids, and the available current and voltage limits.
+
+The control problem is therefore a coupled 6-DOF actuation problem rather than six independent single-axis control problems.
+
+\subsection{Coordinate System}
+
+A right-handed Cartesian coordinate system is defined with its origin at the centre of the solenoid array surface. The $Y$-axis is normal to the array surface and represents the vertical direction. The $X$- and $Z$-axes define the horizontal plane.
+
+\subsection{DOF-to-Mechanism Mapping}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{>{\bfseries}l l l}
+\toprule
+DOF & Description & Primary Control Mechanism \\
+\midrule
+X & Horizontal position (left-right) & Selective solenoid activation \\
+Z & Horizontal position (forward-back) & Selective solenoid activation \\
+Y & Vertical position (levitation) & PWM-controlled lifting force \\
+Rotation about Z & Tilt in the XY plane ($\theta_{xy}$) & Eddy-current torque \\
+Rotation about X & Tilt in the YZ plane ($\theta_{yz}$) & Eddy-current torque \\
+Rotation about Y & Rotation in the ZX plane ($\theta_{zx}$) & Eddy-current torque \\
+\bottomrule
+\end{tabular}
+\caption{Primary mechanisms proposed for the six-degree-of-freedom needle actuation.}
+\end{table}
+
+In general, the magnetic actuation relationship can be written as
+
+\begin{equation}
+\begin{bmatrix}
+\mathbf{F}_m\\
+\boldsymbol{\tau}_m
+\end{bmatrix}
+=
+\mathbf{G}
+\left(
+\mathbf{r},
+\mathbf{R},
+\mathbf{I}_c
+\right),
+\end{equation}
+
+where $\mathbf{F}_m$ is the magnetic force vector, $\boldsymbol{\tau}_m$ is the magnetic torque vector, $\mathbf{r}$ and $\mathbf{R}$ describe the translational and rotational state of the needle, and $\mathbf{I}_c$ represents the currents applied to the individual solenoids.
+
+For a local linearized model, the sensitivity of the generated force and torque to the solenoid currents can be represented by an actuation Jacobian,
+
+\begin{equation}
+\mathbf{J}_m=
+\frac{\partial(\mathbf{F}_m,\boldsymbol{\tau}_m)}
+{\partial \mathbf{I}_c}.
+\end{equation}
+
+The rank and conditioning of this Jacobian determine how much of the desired six-dimensional force--torque vector can actually be produced around a given operating point. Full six-DOF controllability is therefore an engineering property of the particular solenoid-array geometry, magnetic-strip geometry, operating point, and actuator limits. It cannot be assumed simply because the needle has six state variables.
+
+\subsection{Translational Control (X, Z)}
+
+Horizontal motion is produced by selectively activating solenoids around the needle, creating controlled magnetic force gradients analogous in principle to a linear motor.
+
+The needle does not need to follow arbitrary trajectories. Hand knitting consists of repetitive and highly structured motion, so the controller can execute predefined parametric trajectories instead of computing unrestricted six-degree-of-freedom paths in real time. This reduces the trajectory-planning problem and makes it possible to use substantial feedforward information in the controller.
+
+\subsection{Vertical Control (Y) and Earnshaw's Theorem}
+
+Earnshaw's theorem states that a passive magnetic object cannot be stably levitated using only static magnetic fields under the assumptions of the theorem. The proposed system does not try to establish passive static magnetic equilibrium. Levitation is instead treated as an actively controlled dynamic stabilization problem using time-varying magnetic fields.
+
+During operation, the vertical lifting force must exceed the gravitational force and the downward component of the yarn force:
+
+\begin{equation}
+F_y(t) >
+m_{\text{eff}}(n),g
++
+F_{\text{yarn},y}(d,\theta).
+\end{equation}
+
+This is a necessary instantaneous force condition, not a complete stability criterion. Actual dynamic stability also depends on local force gradients, controller dynamics, actuator bandwidth, disturbances, and the coupling between translational and rotational motion.
+
+The magnetic command can conceptually be divided into feedforward and feedback components,
+
+\begin{equation}
+\mathbf{u}(t)=
+\mathbf{u}_{\mathrm{ff}}(t)+
+\mathbf{u}_{\mathrm{fb}}(t),
+\end{equation}
+
+where $\mathbf{u}_{\mathrm{ff}}(t)$ represents the excitation associated with the desired knitting trajectory and $\mathbf{u}_{\mathrm{fb}}(t)$ provides corrective excitation to maintain the desired position and orientation.
+
+Because the desired trajectory is known in advance, the predefined motion reduces the control problem compared with arbitrary free-space motion. It does not remove the need for feedback. Feedback is still required to compensate for modelling errors, magnetic cross-talk, changing yarn loading, actuator nonlinearities, and external disturbances.
+
+%------------------------------------------------------------
+\section{Textile Dynamics and Mathematical Framework}
+%------------------------------------------------------------
+
+In hand knitting, the two needles are rarely parallel. Instead, they form a continuously changing V-shaped configuration described by the intersection angle $\theta(t)$. At the same time, yarn loops move between the needles, so the mass distribution changes throughout the knitting cycle.
+
+\subsection{Dynamic Mass and Moment of Inertia Model}
+
+Let $\lambda$ denote the linear mass density of the yarn (for example, in $\mathrm{kg/m}$ or tex), and let $t_y$ denote the yarn diameter. During steady knitting, the total number of active loops is represented by $N_{\text{total}}$. At any instant,
+
+\begin{equation}
+n_1(t)+n_2(t)=N_{\text{total}},
+\end{equation}
+
+where $n_1(t)$ and $n_2(t)$ are the numbers of loops carried by Needles 1 and 2, respectively.
+
+If $L_{\text{loop}}$ is the average length of yarn associated with one active loop, then the mass of one loop is approximated by
+
+\begin{equation}
+m_{\text{loop}}\approx\lambda L_{\text{loop}}.
+\end{equation}
+
+The effective mass of a needle carrying $n$ loops is therefore
+
+\begin{equation}
+m_{\text{eff}}(n)=
+m_{\text{needle}}+
+n(\lambda L_{\text{loop}}).
+\end{equation}
+
+The loops also change the effective mass moment of inertia. Since their distribution along the shaft depends on more than just their number, the yarn contribution depends on the actual spatial distribution of the loops.
+
+The effective inertia tensor is therefore written generally as
+
+\begin{equation}
+\mathbf{I}_{\text{eff}}
+=
+\mathbf{I}_{\text{needle}}
++
+\mathbf{I}_{\text{yarn}},
+\end{equation}
+
+with
+
+\begin{equation}
+\mathbf{I}_{\text{yarn}}
+=
+\mathbf{I}_{\text{yarn}}
+\left(
+n(t),
+\theta(t),
+\mathbf{r}_{\text{yarn}}(t)
+\right).
+\end{equation}
+
+As loops transfer between the needles and $\theta$ changes, the torque required to change and maintain the needle orientation can therefore also change. The electromagnetic control torque has to account for this changing mechanical state.
+
+%------------------------------------------------------------
+\subsection{Gyroscopic Cross-Coupling and Reduced-Order Torque Requirement}
+%------------------------------------------------------------
+
+Changing the orientation of the needles changes more than their geometry. The angular velocity and the effective inertia tensor together produce rotational cross-coupling.
+
+For a reduced-order rigid-body representation of the combined needle--yarn system, angular momentum is
+
+\begin{equation}
+\mathbf{H}
+=
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}.
+\end{equation}
+
+For a rigid body with constant inertia, expressed in a body-fixed frame, the rotational equation is
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{net}}
+=
+\mathbf{I}_{\text{eff}}
+\dot{\boldsymbol{\omega}}
++
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right).
+\end{equation}
+
+The second term represents the familiar gyroscopic and rotational cross-coupling contribution,
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{gyro}}
+=
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right).
+\end{equation}
+
+In this system, however, the effective inertia is not necessarily constant because the yarn distribution changes during knitting. It can therefore be represented generally as
+
+\begin{equation}
+\mathbf{I}_{\text{eff}}
+=
+\mathbf{I}_{\text{eff}}
+\left(
+n(t),
+\theta(t),
+\mathbf{r}_{\text{yarn}}(t)
+\right).
+\end{equation}
+
+For the reduced-order approximation used here, the additional contribution associated with the explicit time variation of the effective inertia is represented as
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{inertia-change}}
+\approx
+\dot{\mathbf{I}}_{\text{eff}}
+\boldsymbol{\omega}.
+\end{equation}
+
+The resulting approximate control-torque requirement is
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{required}}(t)
+\approx
+\mathbf{I}_{\text{eff}}
+\dot{\boldsymbol{\omega}}
++
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right)
++
+\dot{\mathbf{I}}_{\text{eff}}
+\boldsymbol{\omega}.
+\end{equation}
+
+The equation is deliberately a reduced-order model. The yarn is deformable and moves between the needles, so it cannot in general be treated as a rigidly attached body. A complete model would also need to include the linear and angular momentum associated with yarn motion relative to each needle, yarn tension and bending, and momentum transfer during loop formation.
+
+For the current framework, the equation is intended to capture three main effects: rotational acceleration, gyroscopic cross-coupling, and the change in effective inertia associated with the evolving yarn distribution.
+
+%------------------------------------------------------------
+\subsection{Intermediate Stitch Phase and Active Yarn Dispenser Control}
+%------------------------------------------------------------
+
+Between completed stitches, the loops rest approximately along the needle shafts. During the intermediate stitch phase, the needles separate as a new loop is formed through the existing stitch. The yarn then spans the gap between the two needles and acts as a mechanical link between them.
+
+The amount of yarn required during this phase depends on the instantaneous separation distance $d$ between the relevant needle-tip points, the intersection angle $\theta$, and the existing loop geometry.
+
+For the symmetric two-leg geometry considered here, the length of one complete symmetric bridge is
+
+\begin{equation}
+L_{\text{bridge}}
+=
+2\left(
+\frac{d/2}{\sin(\theta/2)}
+\right)
+=
+d\,
+\csc\left(\frac{\theta}{2}\right).
+\end{equation}
+
+More generally, the complete intermediate stitch may contain multiple geometric yarn segments of this form. The required yarn length is therefore modeled as
+
+\begin{equation}
+L_{\text{required}}(t)
+=
+k_g d(t)
+\csc\left(\frac{\theta(t)}{2}\right)
++
+L_{\text{loop}}
++
+x,
+\end{equation}
+
+where $k_g$ is a dimensionless topology coefficient describing the number and arrangement of geometric bridge contributions.
+
+The coefficient is kept general because the exact yarn topology depends on the stitch-formation sequence and needle geometry. The variable $x$ is a structural allowance accounting for needle-tip geometry, deviations in the yarn path, and fabric tortuosity.
+
+Yarn can sustain substantial tensile loading but cannot meaningfully sustain compression in the same way. Therefore, if the required geometric yarn length decreases rapidly during the intermediate stitch phase, excess yarn can become slack. If the required length increases faster than yarn is supplied, excessive tension can develop.
+
+The framework therefore incorporates an active, bidirectional motorized yarn dispenser as a synchronized slave axis. Its purpose is to regulate the geometric yarn-length requirement throughout the intermediate stitch phase.
+
+Because the master controller follows predefined parametric trajectories, the instantaneous values of $d(t)$, $\theta(t)$, $\dot{d}(t)$, and $\dot{\theta}(t)$ are known \emph{a priori}. Differentiating $L_{\text{required}}(t)$ gives
+
+\begin{equation}
+\dot{L}_{\text{required}}(t)
+=
+k_g\dot{d}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+-
+\frac{k_g}{2}
+d(t)\dot{\theta}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+\cot\left(\frac{\theta(t)}{2}\right).
+\end{equation}
+
+When $\dot{L}_{\text{required}}>0$, the idealized dispenser operates in feed mode and supplies yarn at the corresponding linear rate. When $\dot{L}_{\text{required}}<0$, it operates in retraction mode at the corresponding magnitude of rate, subject to the mechanical ability of the dispenser to retract yarn.
+
+This equation gives the ideal geometric yarn-length rate. It does not, by itself, guarantee constant yarn tension. Actual tension depends on yarn elasticity, friction, slip, dispenser inertia, spool or capstan geometry, motor torque, and external disturbances. A physical implementation would therefore require either tension sensing, a tension model, or a secondary feedback mechanism if precise tension regulation is required.
+
+Under the assumptions of this framework, synchronizing the dispenser with the predefined needle trajectories provides feedforward regulation of yarn delivery and may reduce the need for real-time computer-vision-based yarn-length estimation. It does not remove the possibility that feedback control of tension or disturbance rejection will be needed.
+
+%------------------------------------------------------------
+\section{Challenges and Mitigations}
+%------------------------------------------------------------
+
+\subsection{Magnetic Cross-Talk and Core Thermal Degradation}
+
+Adjacent solenoids may interfere with one another, and prolonged operation can raise the temperature of both the silicon-steel cores and copper windings. The proposed approach is to manage these effects through controlled PWM sequencing, a symmetric array layout, electromagnetic optimization, and the thermal-management strategies discussed earlier.
+
+The magnetic properties of the core material also vary with temperature. Their temperature dependence therefore needs to be characterized experimentally or through coupled electromagnetic--thermal simulation. Maintaining an appropriate thermal operating range is an engineering requirement of the system, not an assumption that can simply be built into the model.
+
+\subsection{Projectile Effect}
+
+A stray ferromagnetic object entering the active magnetic field may experience a strong attractive force and become a projectile. The experimental system should therefore operate inside an enclosed environment that prevents external ferromagnetic objects from entering the active magnetic field.
+
+%------------------------------------------------------------
+\section{Limitations}
+%------------------------------------------------------------
+
+\begin{itemize}
+
+\item This work is entirely theoretical. No physical prototype has yet been constructed, and the coupled models for electromagnetic levitation, rotational control, and gyroscopic compensation have not been experimentally validated.
+
+\item The electromagnetic actuation model is represented abstractly through the mapping $\mathbf{G}$ and the local actuation Jacobian $\mathbf{J}_m$. The actual force--torque characteristics, controllability rank, actuator bandwidth, saturation limits, and stability margins still need to be established through detailed electromagnetic simulation and experiment.
+
+\item The thermal behaviour of the stator bed is discussed qualitatively. Predicting operating temperatures, cooling performance, transient thermal behaviour, and the feasibility of integrated sorption refrigeration requires detailed numerical thermal modelling.
+
+\item The reduced-order rotational model represents the combined needle--yarn system using an effective inertia tensor. A complete model would need to account for yarn deformation, relative yarn motion, loop transfer, tension, friction, and momentum exchange between the yarn and needles.
+
+\item The active yarn dispenser regulates the geometric yarn-length requirement but does not independently guarantee constant yarn tension. In a physical implementation, yarn slip, elasticity, friction, dispenser dynamics, or external disturbances may still introduce slack or excessive tension. Feedback control or tension sensing may therefore be required.
+
+\end{itemize}
+
+%------------------------------------------------------------
+\section{Future Work}
+%------------------------------------------------------------
+
+\begin{itemize}
+
+\item \textbf{Prototype Development:} Construct and experimentally evaluate a scaled-down single-needle solenoid array to measure the achievable force and torque profiles.
+
+\item \textbf{Numerical Simulation:} Perform finite element analysis (FEA) to study transient magnetic fields, magnetic-strip geometry, actuator cross-talk, and multi-axis eddy-current torque generation.
+
+\item \textbf{Electrothermal Characterization:} Develop a coupled electromagnetic--thermal model to determine coil temperature, core temperature, resistance variation, magnetic-property degradation, and the feasibility of thermoelectric and sorption-based thermal-management approaches.
+
+\item \textbf{Control Validation:} Determine the rank, conditioning, and achievable operating region of the actuation Jacobian $\mathbf{J}_m$ and evaluate whether full six-degree-of-freedom force--torque control can actually be obtained over the required knitting workspace.
+
+\item \textbf{Textile Characterization:} Experimentally measure yarn interaction with the aluminium needle tip and shaft to calibrate the structural allowance variable $x$ used in the intermediate stitch model.
+
+\item \textbf{Yarn-Tension Control:} Develop a coupled feedforward--feedback yarn-delivery system incorporating yarn tension, dispenser dynamics, friction, elasticity, and slip.
+
+\end{itemize}
+
+%------------------------------------------------------------
+\section*{References}
+%------------------------------------------------------------
+
+\begingroup
+\renewcommand{\section}[2]{}
+\begin{thebibliography}{9}
+
+\bibitem{zhang2019}
+Zhang, C., Li, D., Zuo, X., & Zhou, X. (2019).
+Magnetic array knitting needle driving system design.
+\textit{IOP Conference Series: Materials Science and Engineering},
+612(3), 032026.
+
+\bibitem{zuo2021}
+Zuo, X., Zhang, C., Xiong, T., Yin, W., Li, M., Zhang, C., Wu, X., & Zhu, L. (2021).
+Maglev weft knitting needle driving modeling and PID controller design.
+\textit{The Journal of The Textile Institute}, 113(8), 1715--1722.
+
+\bibitem{xiong2023}
+Xiong, T., Peng, Y., Zuo, X., Zhang, C., Zhang, C., Zhang, L., & Li, H. (2023).
+Magnetic field analysis and optimization of the gauge of hybrid maglev needles.
+\textit{Applied Sciences}, 13(3), 1257.
+
+\bibitem{zhang2025}
+Zhang, D., Sheng, X., Gao, P., Wang, C., & Shi, Y. (2025).
+Structure design and control of magnetic levitated needle driving system.
+In \textit{Intelligent Robotics and Applications, ICIRA 2024},
+Lecture Notes in Computer Science, vol.\ 15207. Springer, Singapore.
+
+\end{thebibliography}
+\endgroup
+
+%------------------------------------------------------------
+\appendix
+%------------------------------------------------------------
+
+\section{Mathematical Derivations}
+
+This appendix gives the derivations behind the main equations. They follow the assumptions already introduced in the framework, so the main discussion can stay focused on the system itself.
+
+%------------------------------------------------------------
+\subsection{Dynamic Needle Mass and Moment of Inertia}
+%------------------------------------------------------------
+
+\subsubsection*{Variable Definitions}
+
+\begin{itemize}
+\item $m_{\text{needle}}$: Mass of the bare aluminium needle ($\mathrm{kg}$).
+\item $\lambda$: Linear mass density of the yarn ($\mathrm{kg/m}$).
+\item $t_y$: Diameter (thickness) of the yarn strand ($\mathrm{m}$).
+\item $L_{\text{loop}}$: Average path length of yarn associated with a single active loop around the needle shaft ($\mathrm{m}$).
+\item $N_{\text{total}}$: Total number of active loops across both needles.
+\item $n_1(t), n_2(t)$: Instantaneous loop counts on Needles 1 and 2, where
+\[
+n_1(t)+n_2(t)=N_{\text{total}}.
+\]
+\item $m_{\text{loop}}$: Mass of a single yarn loop ($\mathrm{kg}$).
+\item $m_{\text{eff}}(n)$: Effective mass of a needle carrying $n$ loops ($\mathrm{kg}$).
+\item $\mathbf{I}_{\text{eff}}$: Effective inertia tensor of the needle--yarn system ($\mathrm{kg\cdot m^2}$).
+\end{itemize}
+
+\subsubsection*{Derivation}
+
+The mass of one yarn loop is approximated by
+
+\begin{equation}
+m_{\text{loop}}
+=
+\lambda L_{\text{loop}}.
+\end{equation}
+
+For a needle carrying $n$ active loops, the effective mass becomes
+
+\begin{equation}
+m_{\text{eff}}(n)
+=
+m_{\text{needle}}
++
+n m_{\text{loop}}
+=
+m_{\text{needle}}
++
+n(\lambda L_{\text{loop}}).
+\end{equation}
+
+The yarn contribution to the inertia depends on where the loops are located relative to the needle. Therefore,
+
+\begin{equation}
+\mathbf{I}_{\text{eff}}
+=
+\mathbf{I}_{\text{needle}}
++
+\mathbf{I}_{\text{yarn}},
+\end{equation}
+
+where
+
+\begin{equation}
+\mathbf{I}_{\text{yarn}}
+=
+\mathbf{I}_{\text{yarn}}
+\left(
+n(t),
+\theta(t),
+\mathbf{r}_{\text{yarn}}(t)
+\right).
+\end{equation}
+
+A complete expression for $\mathbf{I}_{\text{yarn}}$ requires the instantaneous three-dimensional geometry of the yarn. That is left for future development.
+
+%------------------------------------------------------------
+\subsection{Intermediate Stitch Phase and Active Yarn Dispenser Feed Rate}
+%------------------------------------------------------------
+
+\subsubsection*{Variable Definitions}
+
+\begin{itemize}
+\item $d(t)$: Instantaneous separation distance between the relevant needle-tip points ($\mathrm{m}$).
+\item $\theta(t)$: Instantaneous intersection angle of the V-shaped needle configuration ($\mathrm{rad}$).
+\item $k_g$: Dimensionless topology coefficient representing the number and arrangement of geometric yarn-bridge contributions.
+\item $x$: Structural allowance accounting for needle-tip geometry and fabric tortuosity ($\mathrm{m}$).
+\item $L_{\text{required}}(t)$: Required yarn length for the modeled intermediate stitch path ($\mathrm{m}$).
+\item $\dot{d}(t)$: Translational separation velocity ($\mathrm{m/s}$).
+\item $\dot{\theta}(t)$: Angular opening or closing rate of the V-shaped configuration ($\mathrm{rad/s}$).
+\item $\dot{L}_{\text{required}}(t)$: Required feed or retraction rate of the yarn dispenser ($\mathrm{m/s}$).
+\end{itemize}
+
+\subsubsection*{Derivation}
+
+Consider the symmetric geometry formed by the two needle shafts. A single symmetric yarn bridge spanning a tip-to-tip separation distance $d$ has geometric length
+
+\begin{equation}
+L_{\text{bridge}}
+=
+2\cdot
+\frac{d/2}{\sin(\theta/2)}
+=
+d\,
+\csc\left(\frac{\theta}{2}\right).
+\end{equation}
+
+The complete intermediate stitch model may contain multiple geometric yarn segments of this type. The required yarn length is therefore represented generally as
+
+\begin{equation}
+L_{\text{required}}(t)
+=
+k_g d(t)
+\csc\left(\frac{\theta(t)}{2}\right)
++
+L_{\text{loop}}
++
+x.
+\end{equation}
+
+The coefficient is intentionally left general because the precise yarn topology depends on the stitch-formation sequence and may differ for alternative needle geometries or knitting operations.
+
+Differentiating with respect to time gives
+
+\begin{equation}
+\dot{L}_{\text{required}}(t)
+=
+k_g\dot{d}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+-
+\frac{k_g}{2}
+d(t)\dot{\theta}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+\cot\left(\frac{\theta(t)}{2}\right),
+\end{equation}
+
+assuming that $L_{\text{loop}}$ and $x$ remain constant during the instantaneous differentiation,
+
+\begin{equation}
+\frac{d}{dt}
+\left[
+L_{\text{loop}}+x
+\right]
+=
+0.
+\end{equation}
+
+Using
+
+\begin{equation}
+\frac{d}{dt}\csc(u)
+=
+-\csc(u)\cot(u)\frac{du}{dt},
+\end{equation}
+
+where
+
+\begin{equation}
+u=\frac{\theta(t)}{2},
+\qquad
+\frac{du}{dt}
+=
+\frac{\dot{\theta}(t)}{2},
+\end{equation}
+
+gives
+
+\begin{equation}
+\begin{aligned}
+\dot{L}_{\text{required}}(t)
+&=
+k_g\dot{d}(t)
+\csc\left(\frac{\theta(t)}{2}\right)\\
+&\quad
+-
+k_g d(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+\cot\left(\frac{\theta(t)}{2}\right)
+\frac{\dot{\theta}(t)}{2}.
+\end{aligned}
+\end{equation}
+
+Therefore,
+
+\begin{equation}
+\boxed{
+\dot{L}_{\text{required}}(t)
+=
+k_g\dot{d}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+-
+\frac{k_g}{2}
+d(t)\dot{\theta}(t)
+\csc\left(\frac{\theta(t)}{2}\right)
+\cot\left(\frac{\theta(t)}{2}\right)
+}
+\end{equation}
+
+%------------------------------------------------------------
+\subsection{Gyroscopic Cross-Coupling Torque Compensation}
+%------------------------------------------------------------
+
+\subsubsection*{Variable Definitions}
+
+\begin{itemize}
+\item $\boldsymbol{\omega}$: Angular velocity vector of the needle ($\mathrm{rad/s}$).
+\item $\mathbf{H}$: Angular momentum vector ($\mathrm{kg\cdot m^2/s}$).
+\item $\boldsymbol{\tau}_{\text{gyro}}$: Gyroscopic cross-coupling torque ($\mathrm{N\cdot m}$).
+\item $\boldsymbol{\tau}_{\text{required}}(t)$: Approximate magnetic control torque required for rotational acceleration and stabilization ($\mathrm{N\cdot m}$).
+\item $\mathbf{I}_{\text{eff}}$: Effective inertia tensor of the needle--yarn system ($\mathrm{kg\cdot m^2}$).
+\item $\dot{\mathbf{I}}_{\text{eff}}$: Time derivative of the effective inertia tensor associated with changes in the modeled yarn mass distribution.
+\end{itemize}
+
+\subsubsection*{Derivation}
+
+The angular momentum of the reduced-order combined needle--yarn system is
+
+\begin{equation}
+\mathbf{H}
+=
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}.
+\end{equation}
+
+For a rigid-body representation expressed in a body-fixed frame and with constant inertia, the rotational equation is
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{net}}
+=
+\mathbf{I}_{\text{eff}}
+\dot{\boldsymbol{\omega}}
++
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right).
+\end{equation}
+
+The second term is the gyroscopic and rotational cross-coupling contribution,
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{gyro}}
+=
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right).
+\end{equation}
+
+Here, however, the effective inertia changes during knitting because the yarn distribution changes. It can therefore be written as
+
+\begin{equation}
+\mathbf{I}_{\text{eff}}
+=
+\mathbf{I}_{\text{eff}}
+\left(
+n(t),
+\theta(t),
+\mathbf{r}_{\text{yarn}}(t)
+\right).
+\end{equation}
+
+For the reduced-order approximation used here, the associated explicit inertia-change contribution is represented by
+
+\begin{equation}
+\boldsymbol{\tau}_{\text{inertia-change}}
+\approx
+\dot{\mathbf{I}}_{\text{eff}}
+\boldsymbol{\omega}.
+\end{equation}
+
+The resulting approximate control requirement is
+
+\begin{equation}
+\boxed{
+\boldsymbol{\tau}_{\text{required}}
+\approx
+\mathbf{I}_{\text{eff}}
+\dot{\boldsymbol{\omega}}
++
+\boldsymbol{\omega}
+\times
+\left(
+\mathbf{I}_{\text{eff}}
+\boldsymbol{\omega}
+\right)
++
+\dot{\mathbf{I}}_{\text{eff}}
+\boldsymbol{\omega}
+}.
+\end{equation}
+
+The first term represents the torque associated with angular acceleration. The second represents gyroscopic and rotational cross-coupling. The third represents the reduced-order contribution associated with the modeled change in effective inertia.
+
+This is not intended to be a complete variable-mass mechanics model. The yarn is deformable and is transferred between the needles, so a complete formulation would also need to account for relative yarn motion, tension, bending, friction, momentum exchange, and the dynamics of loop transfer. Those effects are left for future modelling and experimental validation.
+
+\end{document}
